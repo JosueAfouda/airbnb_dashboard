@@ -10,11 +10,18 @@ sidebar <- dashboardSidebar()
 
 # Body
 neighbourhood_choices <- unique(newyork$neighbourhood)
-city_name <- "NewYork"
+city_name <- "New York"
 body <- dashboardBody(
-  mod_city_analysis_ui(id = "nyc", 
-                       city_name = city_name, 
-                       neighbourhood_choices = neighbourhood_choices)
+  tabItem(
+    tabName = "Airbnb",
+    fluidRow(
+      tabsetPanel(
+        mod_city_analysis_ui(id = "nyc", 
+                             city_name = city_name, 
+                             neighbourhood_choices = neighbourhood_choices)
+      )
+    )
+  )
 )
 
 # User Interface
