@@ -59,3 +59,41 @@ mod_city_analysis_ui <- function(id, city_name, neighbourhood_choices) {
     )
   )
 }
+
+
+# Module Server
+mod_city_analysis_server <- function(id, data, neighbourhood_column, price_column) {
+  moduleServer(id, function(input, output, session) {
+    ns <- session$ns
+    
+    filtered_data <- reactive({
+      data %>% filter(!!sym(neighbourhood_column) == input$quartier)
+    })
+    
+    output$map <- renderLeaflet({
+      leaflet(data = filtered_data()) %>%
+        addTiles() %>%
+        addMarkers()
+    })
+    
+    output$avg_price <- renderValueBox({
+      valueBox(
+        value = paste(round(mean(filtered_data()[[price_column]], na.rm = TRUE), 1), "$"),
+        subtitle = " ",
+        icon = icon("money-bill-wave"),
+        color = "purple"
+      )
+    })
+    
+    output$price_chart <- renderPlotly({
+      data_summary <- filtered_data() %>%
+        group_by(room_type) %>%
+        summarize(avg_price = mean(!!sym(price_column), na.rm = TRUE), .groups = "drop")
+      
+      p <- ggplot(data_summary, aes(x = room_type, y = avg_price, fill = room_type)) +
+        geom_col(show.legend = FALSE) +
+        theme_minimal()
+      ggplotly(p)
+    })
+  })
+}
