@@ -8,7 +8,7 @@ header <- dashboardHeader(
 # Sidebar
 sidebar <- dashboardSidebar()
 
-city_tabs <- map(cities_info_ui, ~ mod_city_analysis_ui(
+city_tabs <- map(cities_info, ~ mod_city_analysis_ui(
   id = .x$input_id_prefix,
   city_name = .x$city_name,
   neighbourhood_choices = .x$neighbourhood_choices
