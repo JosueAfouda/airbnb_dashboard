@@ -6,7 +6,7 @@ header <- dashboardHeader(
 )
 
 # Sidebar
-sidebar <- dashboardSidebar()
+sidebar <- dashboardSidebar(disable = TRUE)
 
 city_tabs <- map(cities_info, ~ mod_city_analysis_ui(
   id = .x$input_id_prefix,
