@@ -1,15 +1,61 @@
 newyork <- read.csv('data/new_york.csv')
-View(head(newyork))
-glimpse(newyork)
+# View(head(newyork))
+# glimpse(newyork)
 
 sanfrancisco <- read.csv('data/san_francisco.csv')
-View(head(sanfrancisco))
-glimpse(sanfrancisco)
+# View(head(sanfrancisco))
+# glimpse(sanfrancisco)
 
 amsterdam <- read.csv('data/amsterdam.csv')
-View(head(amsterdam))
-glimpse(amsterdam)
+# View(head(amsterdam))
+# glimpse(amsterdam)
 
 newyork <- newyork %>%
   mutate(price = as.numeric(str_replace_all(price, ",", "")))
-glimpse(newyork)
+# glimpse(newyork)
+
+# Module UI
+mod_city_analysis_ui <- function(id, city_name, neighbourhood_choices) {
+  ns <- NS(id)
+  tabPanel(
+    title = city_name,
+    icon = icon("city"),
+    fluidRow(
+      box(
+        width = 12, 
+        selectInput(ns("quartier"), 
+                    "Choisis un quartier", 
+                    choices = neighbourhood_choices)
+      ),
+      box(
+        width = 7, 
+        title = "Emplacements des logements Airbnb",
+        status = "primary", 
+        solidHeader = TRUE, 
+        leafletOutput(ns("map"), height = "690px")
+      ),
+      box(
+        width = 5,
+        fluidRow(
+          box(
+            width = 12, 
+            title = "Prix moyen ($) d’un Airbnb dans ce quartier",
+            status = "primary", 
+            solidHeader = TRUE, 
+            valueBoxOutput(ns("avg_price"), width = 12)
+          )
+        ),
+        br(),
+        fluidRow(
+          box(
+            width = 12, 
+            title = "Prix moyen ($) d’un Airbnb par type de logement",
+            status = "primary", 
+            solidHeader = TRUE, 
+            plotlyOutput(ns("price_chart"), height = "450px")
+          )
+        )
+      )
+    )
+  )
+}
