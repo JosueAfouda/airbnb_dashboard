@@ -14,7 +14,7 @@ cities_info <- list(
   list(
     city_name = "San Francisco",
     input_id_prefix = "sf",
-    data = amsterdam,
+    data = sanfrancisco,
     neighbourhood_column = "neighbourhood",
     neighbourhood_choices = unique(sanfrancisco$neighbourhood),
     price_column = "price",
