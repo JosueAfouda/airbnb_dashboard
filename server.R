@@ -1,8 +1,8 @@
-# server
+# Serveur
 server <- function(input, output, session) {
   
-  purrr::walk(
-    city_info_server(),
+  walk(
+    cities_info,
     ~ mod_city_analysis_server(
       id = .x$input_id_prefix,
       data = .x$data,
@@ -12,3 +12,4 @@ server <- function(input, output, session) {
   )
   
 }
+
